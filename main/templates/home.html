@@ -1,0 +1,84 @@
+{% extends "layout.html" %}
+{% block title %}Home{% endblock %}
+{% block body %}
+    <nav class="navbar navbar-expand-lg bg-light">
+        <div class="container-fluid">
+        <a class="navbar-brand">Todo</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="#">Home</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">Link</a>
+            </li>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                Dropdown
+                </a>
+                <ul class="dropdown-menu">
+                <li><a class="dropdown-item" href="#">Action</a></li>
+                <li><a class="dropdown-item" href="#">Another action</a></li>
+                <li><hr class="dropdown-divider"></li>
+                <li><a class="dropdown-item" href="#">Something else here</a></li>
+                </ul>
+            </li>
+            <li class="nav-item">
+                  <a class="nav-link" href="{{url_for("logout")}}">Logout</a>
+            </li>
+            </ul>
+            <form class="d-flex" role="search">
+            <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+            <button class="btn btn-outline-success" type="submit">Search</button>
+            </form>
+        </div>
+        </div>
+    </nav>
+    <h3 class="text-center">
+      Add Todo
+    </h3>
+    <div class="container">
+      <form action="{{url_for("home")}}" method="post">
+        {{ form.hidden_tag() }}
+        <div class="mb-3">
+          {{form.title.label(class="fw-semibold")}}
+          <br>
+          {{form.title(class="form-control")}}
+        </div>
+        <div class="mb-3">
+          {{form.description.label(class="fw-semibold")}}
+          <br>
+          {{form.description(class="form-control")}}
+        </div>
+          {{form.add(class="btn btn-primary")}}
+        </form>
+    </div>
+    <div class="container">
+        <h3 class="text-center">
+            Your Todo(s)
+        </h3>
+        <table class="table table-hover w-auto">
+            <thead>
+              <tr>
+                <th scope="col">S.N.</th>
+                <th scope="col">Title</th>
+                <th scope="col" class="text-center">Description</th>
+                <th scope="col">Added Date</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for todo in todos %}
+                <tr>
+                  <th scope="row">{{ loop.index }}</th>
+                  <td>{{ todo.title }}</td>
+                  <td>{{ todo.description }} </td>
+                  <td>{{ todo.date_added }} </td>
+                </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+    </div>
+{% endblock %}
