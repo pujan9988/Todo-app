@@ -13,7 +13,7 @@
                 <a class="nav-link active" aria-current="page" href="#">Home</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#">Link</a>
+                <a class="nav-link active">Add Todo</a>
             </li>
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -39,21 +39,21 @@
     </nav>
     <h3 class="text-center">
       Add Todo
-    </h3>
+    </h3>  
     <div class="container">
-      <form action="{{url_for("home")}}" method="post">
-        {{ form.hidden_tag() }}
+        <form action="{{url_for("home")}}" method="post">
+            {{ form.hidden_tag() }}
         <div class="mb-3">
-          {{form.title.label(class="fw-semibold")}}
-          <br>
-          {{form.title(class="form-control")}}
+            {{ form.title.label(class="fw-semibold") }}
+            <br>
+            {{ form.title(class="form-control") }}
         </div>
         <div class="mb-3">
-          {{form.description.label(class="fw-semibold")}}
-          <br>
-          {{form.description(class="form-control")}}
+            {{ form.description.label(class="fw-semibold") }}
+            <br>
+            {{ form.description(class="form-control") }}
         </div>
-          {{form.add(class="btn btn-primary")}}
+            {{ form.add(class="btn btn-primary") }}
         </form>
     </div>
     <div class="container">
@@ -70,7 +70,7 @@
               </tr>
             </thead>
             <tbody>
-              {% for todo in todos %}
+              {% for todo in user.todos %}
                 <tr>
                   <th scope="row">{{ loop.index }}</th>
                   <td>{{ todo.title }}</td>

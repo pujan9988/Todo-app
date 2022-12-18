@@ -33,18 +33,21 @@ def registration():
         flash("You are successfully registered !",'success')
     return render_template("registration.html",form=form)
 
-@app.route("/home", methods=["POST","GET"])
+@app.route("/home", methods= ["POST", "GET"])
 @login_required
 def home():
     form = TodoForm()
+    user = Details.query.filter_by(email=current_user.email).first() 
+    todos = Todo.query.all()
     if (form.validate_on_submit()) and (request.method=="POST"):
-        todo = Todo(title=form.title.data, description = form.description.data, todo_user=current_user)
+        todo = Todo(title=form.title.data, description = form.description.data, details_id=current_user.id)
         db.session.add(todo)
         db.session.commit()
+        user = Details.query.filter_by(email=current_user.email).first()
         todos = Todo.query.all()
-        return render_template("home.html",todos=todos,form=form)
+        return render_template('home.html',todos=todos,form=form,user=user)
+    return render_template("home.html",form=form,todos=todos,user=user)
 
-    return render_template("home.html",form=form)
 
 @app.route("/logout")
 def logout():

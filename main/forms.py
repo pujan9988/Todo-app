@@ -1,6 +1,6 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField,PasswordField,SubmitField,validators,BooleanField,ValidationError, TextAreaField
-from main.dbmodels import Details
+from main.dbmodels import Details,Todo
 
 class RegistrationForm(FlaskForm):
     name = StringField("Name",[validators.length(min=4,max=25),validators.input_required()])
@@ -9,7 +9,7 @@ class RegistrationForm(FlaskForm):
     repeatpassword = PasswordField("Confirm Password",[validators.input_required(),validators.EqualTo("password",message="Password must match")])
     submit = SubmitField(label="Sign up")
 
-    def validate_email(self,email):
+    def validate_email(self,email): #to check the validation errors
         userEmail = Details.query.filter_by(email=email.data).first()
         if userEmail:
             raise ValidationError("Email is already registered !")
@@ -27,4 +27,9 @@ class TodoForm(FlaskForm):
     title = StringField("Title",[validators.input_required()])
     description = TextAreaField("Description",[validators.input_required(), validators.length(min=10)])
     add = SubmitField("ADD")
+
+    def validate_title(self,title):
+        todotitle = Todo.query.filter_by(title=title.data).first()
+        if todotitle:
+            raise ValidationError("This todo title already exits !")
     
