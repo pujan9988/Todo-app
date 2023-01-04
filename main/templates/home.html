@@ -13,7 +13,7 @@
                 <a class="nav-link active" aria-current="page" href="#">Home</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link active">Add Todo</a>
+                <a class="nav-link active" href="{{url_for("addtodo")}}">Add Todo</a>
             </li>
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -37,30 +37,12 @@
         </div>
         </div>
     </nav>
-    <h3 class="text-center">
-      Add Todo
-    </h3>  
-    <div class="container">
-        <form action="{{url_for("home")}}" method="post">
-            {{ form.hidden_tag() }}
-        <div class="mb-3">
-            {{ form.title.label(class="fw-semibold") }}
-            <br>
-            {{ form.title(class="form-control") }}
-        </div>
-        <div class="mb-3">
-            {{ form.description.label(class="fw-semibold") }}
-            <br>
-            {{ form.description(class="form-control") }}
-        </div>
-            {{ form.add(class="btn btn-primary") }}
-        </form>
-    </div>
+
     <div class="container">
         <h3 class="text-center">
             Your Todo(s)
         </h3>
-        <table class="table table-hover w-auto">
+        <table class="table table-hover w-auto center">
             <thead>
               <tr>
                 <th scope="col">S.N.</th>
@@ -75,10 +57,44 @@
                   <th scope="row">{{ loop.index }}</th>
                   <td>{{ todo.title }}</td>
                   <td>{{ todo.description }} </td>
-                  <td>{{ todo.date_added }} </td>
+                  <td>{{ todo.date_added.strftime("%Y/%m/%d %H:%M") }} </td>
+                  <td><div class="dropdown">
+                    <button class="btn dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                    </button>
+                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                      <li><a class="dropdown-item" href="{{url_for("todo",todo_id=todo.id)}}"><button class="btn btn-info">Edit</button></a></li>
+                      <li><a class="dropdown-item" href="#"><!-- Button trigger modal -->
+                        <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                          Delete
+                        </button></a></li>
+                    </ul>
+                  </div></td>
                 </tr>
               {% endfor %}
             </tbody>
           </table>
+          <!-- Modal -->
+          <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h1 class="modal-title fs-5 text-danger" id="exampleModalLabel">Confirm delete</h1>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                  <p class="text-danger">Are you sure to delete this todo? This can't be undone! </p>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                  {% for todo in todos %}
+                  <form action="{{url_for("delete_todo",todo_id=todo.id)}}" method="post">
+                  {% endfor %}
+                    <input type="submit" class="btn btn-danger" value="Delete">
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+        
     </div>
 {% endblock %}

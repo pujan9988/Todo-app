@@ -32,4 +32,17 @@ class TodoForm(FlaskForm):
         todotitle = Todo.query.filter_by(title=title.data).first()
         if todotitle:
             raise ValidationError("This todo title already exits !")
-    
+
+class ResetRequestForm(FlaskForm):
+    email = StringField("Email",[validators.length(min=6,max=40),validators.input_required(),validators.Email()])
+    submit = SubmitField("Request Password Reset")
+
+    def validate_email(self,email): #to check the validation errors
+        userEmail = Details.query.filter_by(email=email.data).first()
+        if userEmail is None:
+            raise ValidationError("This email is not registered! ")
+
+class ResetPassword(FlaskForm):
+    password = PasswordField("Password",[validators.length(min=8),validators.input_required()])
+    repeatpassword = PasswordField("Confirm Password",[validators.input_required(),validators.EqualTo("password",message="Password must match")])
+    submit = SubmitField(label="Reset Password")

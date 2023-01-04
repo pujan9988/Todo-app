@@ -1,0 +1,33 @@
+{% extends "layout.html" %}
+{% block title %}Reset Request{% endblock %}
+{% block body %}
+<div class="container">
+    <form method="post">
+        {{ form.hidden_tag() }}
+        <h5 class="fw-normal mb-3 pb-3" style="letter-spacing: 1px;">Reset your Password</h5>
+        <div class="form-outline mb-4">
+            {{form.password.label}}
+            <br>
+            {{form.password(class="form-control form-control-lg")}}
+            {% for error in form.password.errors %}
+                <div style="color:red;">
+                    {{error}}
+                </div>
+            {% endfor %}
+            {{form.repeatpassword.label}}
+            <br>
+            {{form.repeatpassword(class="form-control form-control-lg")}}
+            {% for error in form.password.errors %}
+                <div style="color:red;">
+                    {{error}}
+                </div>
+            {% endfor %}
+            
+        </div>
+        <div class="pt-1 mb-4">
+        {{form.submit(class="btn btn-dark btn-lg btn-block")}}
+        </div>
+    </form>
+</div>
+
+{% end block %}
