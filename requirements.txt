@@ -12,6 +12,7 @@ Flask-Mail
 Flask-SQLAlchemy
 Flask-WTF
 greenlet
+gunicorn
 idna
 itsdangerous
 Jinja2
