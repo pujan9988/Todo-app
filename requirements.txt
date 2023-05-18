@@ -22,6 +22,6 @@ pycparser
 pytz
 SQLAlchemy
 typing_extensions
+uwsgi
 Werkzeug
-wsgi
 WTForms
