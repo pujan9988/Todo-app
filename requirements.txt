@@ -23,4 +23,5 @@ pytz
 SQLAlchemy
 typing_extensions
 Werkzeug
+wsgi
 WTForms
